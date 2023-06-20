@@ -15,6 +15,7 @@ public:
           int j=i-1;
           int k=i+1;
 
+          //for odd
           while(j>=0 && k<n && s[j]==s[k]){
              if(k-j+1 > len){
                  len=k-j+1;
@@ -27,7 +28,8 @@ public:
 
           j=i-1;
           k=i;
-
+          
+          //for even
           while(j>=0 && k<n && s[j]==s[k]){
              if(k-j+1 > len){
                  len=k-j+1;
