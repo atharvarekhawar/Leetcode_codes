@@ -37,7 +37,7 @@ public:
         }
         vector<int>dp1(n,-1);
         vector<int>dp2(n,-1);
-        int ans = max(solve(last,0,dp1),solve(first,0,dp2));
+        int ans = max(solve(last,0,dp1),solve(first,0,dp2));//to assure both first and last house are not in same solution send two arrays with either of them excluded and return maximun ans.
 
         return ans;
     }
