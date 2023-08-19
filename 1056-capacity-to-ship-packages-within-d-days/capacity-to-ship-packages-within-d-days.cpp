@@ -8,6 +8,14 @@ public:
        }
        return sum;
    }
+   int findMin(vector<int>& weights,int n){
+       int mini = INT_MAX;
+
+       for(int i=0;i<n;i++){
+           mini = min(mini,weights[i]);
+       }
+       return mini;
+   }
    bool checkWeight(vector<int>& weights,int days,int n,int mid){
        int curr=0;
        int cnt=0;
@@ -39,9 +47,8 @@ public:
        return cnt <= days;
    }
    int solve(vector<int>& weights,int days,int n){
-       int maxi = findSum(weights,n);
-       int low=1;
-       int high=maxi;
+       int high = findSum(weights,n);
+       int low  = findMin(weights,n);
 
        while(low<=high){
            int mid = low+(high-low)/2;
