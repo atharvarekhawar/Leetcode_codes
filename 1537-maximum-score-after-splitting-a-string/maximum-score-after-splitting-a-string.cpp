@@ -1,27 +1,16 @@
 class Solution {
 public:
-    int maxScore(string s) {
-        int oneCount=0;
-        int zeroCount=0;
+    int maxScore(const std::string& s) {
+        int max_score = 0;
+        int count_zeros_left = 0;
+        int count_ones_right = std::count(s.begin(), s.end(), '1');
 
-        for(auto i:s){
-            if(i=='1'){
-                oneCount++;
-            }
+        for (int i = 0; i < s.size() - 1; ++i) {
+            count_zeros_left += (s[i] == '0');
+            count_ones_right -= (s[i] == '1');
+            max_score = std::max(max_score, count_zeros_left + count_ones_right);
         }
 
-        int score = 0;
-
-        for(int i=0;i<s.length()-1;i++){
-            if(s[i]=='0'){
-                zeroCount++;
-            }
-            else{
-                oneCount--;
-            }
-            score = max(score,(zeroCount + oneCount));
-        }
-
-        return score;
+        return max_score;
     }
 };
