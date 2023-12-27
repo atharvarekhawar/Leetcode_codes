@@ -9,7 +9,6 @@ public:
         int n = neededTime.size();
 
         char currentColor = colors[0];
-        int currentIndex = 0;
         int currentTime = neededTime[0];
 
         for (int i = 1; i < n; i++) {
@@ -17,7 +16,6 @@ public:
                 if (neededTime[i] > currentTime) {
                     cost += currentTime;
                     currentColor = colors[i];
-                    currentIndex = i;
                     currentTime = neededTime[i];
                 }
                 else{
@@ -25,7 +23,6 @@ public:
                 }
             } else {   
                 currentColor = colors[i];
-                currentIndex = i;
                 currentTime = neededTime[i];
             }
         }
