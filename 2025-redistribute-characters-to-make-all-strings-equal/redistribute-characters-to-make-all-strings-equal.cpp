@@ -1,27 +1,32 @@
 class Solution {
 public:
     bool makeEqual(vector<string>& words) {
-        int n = words.size();
-        if(n==1){
+        if (words.size() == 1) {
             return true;
         }
 
-        unordered_map<char,int>store;
+        int totalCharCount = 0;
+        for (const string& s : words) {
+            totalCharCount += s.length();
+        }
 
-        for(int i=0;i<n;i++){
-            for(auto j:words[i]){
-                store[j]++;
+        if (totalCharCount % words.size() != 0) {
+            return false;
+        }
+
+        vector<int> myMap(26, 0);
+        for (const string& s : words) {
+            for (char c : s) {
+                myMap[c - 'a']++;
             }
         }
 
-        bool flag = true;
-
-        for(auto it:store){
-            if(it.second % n != 0 ){
+        for (int i : myMap) {
+            if (i % words.size() != 0) {
                 return false;
             }
         }
 
-        return flag;
+        return true;
     }
 };
