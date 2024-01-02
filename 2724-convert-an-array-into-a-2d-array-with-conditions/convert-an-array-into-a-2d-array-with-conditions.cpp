@@ -1,13 +1,6 @@
 class Solution {
 public:
     vector<vector<int>> findMatrix(vector<int>& nums) {
-        // vector<vector<int>>res;
-
-        // if(nums.size()==1){
-        //     res.push_back(vector<int>(1,nums[0]));
-        //     return res;
-        // }
-
         unordered_map<int,int>store;
 
         int maxCount=0;
