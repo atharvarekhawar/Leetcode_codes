@@ -1,38 +1,26 @@
 class Solution {
 public:
     int numberOfBeams(vector<string>& bank) {
-        int m=bank.size();
-        int n=bank[0].length();
+        int m = bank.size();
+        int n = bank[0].length();
+
         if(m==1){
             return 0;
         }
 
-        vector<int>deviceCount(m);
+        int ans=0;
+        int prevCount = 0;
+
 
         for(int i=0;i<m;i++){
-            int count=0;
-            for(int j=0;j<n;j++){
-                if(bank[i][j]=='1'){
-                    count++;
-                }
-            }
-            deviceCount[i]=count;
-        }
+            int currCount = count(bank[i].begin(),bank[i].end(),'1');
 
-        int ans=0;
-        int currCount=deviceCount[0];
-
-        for(int i=1;i<m;i++){
-            if(deviceCount[i]!=0 && currCount==0){
-                currCount=deviceCount[i];
+            if(currCount==0){
                 continue;
             }
 
-            if(deviceCount[i]!=0 && currCount!=0){
-                ans += (currCount * deviceCount[i]);
-                currCount=deviceCount[i];
-            }
-
+            ans += currCount * prevCount;
+            prevCount = currCount;
         }
 
         return ans;
