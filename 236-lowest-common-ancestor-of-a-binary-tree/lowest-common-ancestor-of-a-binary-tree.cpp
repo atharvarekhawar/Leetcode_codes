@@ -33,10 +33,6 @@ public:
             return left;
         }
 
-        if((left==p || left==q) && (right==p || right==q)){
-            return root;
-        }
-
-        return NULL;
+        return root;
     }
 };
