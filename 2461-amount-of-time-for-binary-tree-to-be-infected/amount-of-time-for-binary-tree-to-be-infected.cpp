@@ -6,57 +6,85 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
- * right(right) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
 class Solution {
 public:
-    unordered_map<int, vector<int>> graph;
+    TreeNode* findNode(TreeNode* root,int start){
+        if(root==NULL){
+            return NULL;
+        }
+
+        if(root->val == start){
+            return root;
+        }
+
+        TreeNode* left = findNode(root->left,start);
+        TreeNode* right = findNode(root->right,start);
+
+        return left==NULL ? right : left;
+
+        
+    }
     int amountOfTime(TreeNode* root, int start) {
-        constructGraph(root);
+        map<TreeNode*,TreeNode*>parent;
+        queue<TreeNode*>q;
+        q.push(root);
 
-        unordered_set<int> infected;
+        while(!q.empty()){
+            int size = q.size();
 
-        queue<int> store;
-        store.push(start);
+            for(int i=0;i<size;++i){
+                TreeNode* temp = q.front();
+                q.pop();
 
-        int time = -1;
+                if(temp->left){
+                    q.push(temp->left);
+                    parent[temp->left] = temp;
+                }
 
-        while (!store.empty()) {
-            time++;
-            for (int i = store.size(); i > 0; i--) {
-                int currentNode = store.front();
-                store.pop();
-                infected.insert(currentNode);
-
-                for (int adjacentNode : graph[currentNode]) {
-                    if (!infected.count(adjacentNode)) {
-                        store.push(adjacentNode);
-                    }
+                if(temp->right){
+                    q.push(temp->right);
+                    parent[temp->right] = temp;
                 }
             }
         }
 
-        return time;
-    }
+        TreeNode* startNode = findNode(root,start);
 
-    void constructGraph(TreeNode* root) {
-        if (!root) {
-            return;
+        int totalTime = -1;
+        map<TreeNode*,bool>visited;
+
+        q.push(startNode);
+        visited[startNode] = true;
+
+        while(!q.empty()){
+            int size = q.size();
+            totalTime++;
+
+            for(int i=0;i<size;++i){
+                TreeNode* temp = q.front();
+                q.pop();
+
+                if(temp->left && !visited[temp->left]){
+                    q.push(temp->left);
+                    visited[temp->left] = true;
+                }
+
+                if(temp->right && !visited[temp->right]){
+                    q.push(temp->right);
+                    visited[temp->right] = true;
+                }
+
+                if(parent[temp] && !visited[parent[temp]]){
+                    q.push(parent[temp]);
+                    visited[parent[temp]] = true;
+                }
+            }
         }
 
-        if (root->left) {
-            graph[root->val].push_back(root->left->val);
-            graph[root->left->val].push_back(root->val);
-        }
+        return totalTime;
 
-        if (root->right) {
-            graph[root->val].push_back(root->right->val);
-            graph[root->right->val].push_back(root->val);
-        }
-
-        constructGraph(root->left);
-        constructGraph(root->right);
     }
 };
